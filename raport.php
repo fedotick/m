@@ -1,5 +1,4 @@
 <?php
-// File: raport.php
 include 'includes/db.php';
 include 'includes/header.php';
 
@@ -35,25 +34,25 @@ $topDoctor = $pdo->query("
 ")->fetch(PDO::FETCH_ASSOC);
 ?>
 
-<h2>Raport Medical</h2>
-<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#reportModal">Vezi Raport</button>
+<h2>Медицинский отчет</h2>
+<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#reportModal">Посмотреть отчет</button>
 
 <!-- Report Modal -->
 <div class="modal fade" id="reportModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Raport Detaliat - Consultatii Medicale</h5>
+                <h5 class="modal-title">Подробный отчет - Медицинские консультации</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <h4>Sumar Pacienți</h4>
+                <h4>Сводка по пациентам</h4>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Pacient</th>
-                            <th>Număr Consultații</th>
-                            <th>Total Plătit (RON)</th>
+                            <th>Пациент</th>
+                            <th>Количество консультаций</th>
+                            <th>Общая сумма (RUB)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,17 +66,17 @@ $topDoctor = $pdo->query("
                     </tbody>
                 </table>
 
-                <h4>Statistici Generale</h4>
+                <h4>Общая статистика</h4>
                 <ul>
-                    <li><strong>Total consultații:</strong> <?php echo $totalConsultations; ?></li>
-                    <li><strong>Sumă medie per pacient:</strong> <?php echo number_format($avgCost, 2); ?> RON</li>
-                    <li><strong>Medic cu cele mai multe consultații:</strong> 
-                        <?php echo $topDoctor['Nume'] . ' ' . $topDoctor['Prenume'] . ' (' . $topDoctor['consultatii'] . ' consultații)'; ?>
+                    <li><strong>Всего консультаций:</strong> <?php echo $totalConsultations; ?></li>
+                    <li><strong>Средняя сумма на пациента:</strong> <?php echo number_format($avgCost, 2); ?> RUB</li>
+                    <li><strong>Врач с наибольшим количеством консультаций:</strong> 
+                        <?php echo $topDoctor['Nume'] . ' ' . $topDoctor['Prenume'] . ' (' . $topDoctor['consultatii'] . ' консультаций)'; ?>
                     </li>
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Închide</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>

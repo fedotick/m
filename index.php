@@ -1,7 +1,6 @@
 <?php
-// File: index.php
 include 'includes/header.php';
 ?>
-<h1 class="text-center">Bun venit în Sistemul Medical</h1>
-<p class="text-center">Utilizați meniul de navigare pentru a gestiona pacienții, medicii, consultațiile sau pentru a genera rapoarte.</p>
+<h1 class="text-center">Добро пожаловать в Медицинскую систему</h1>
+<p class="text-center">Используйте меню навигации для управления пациентами, врачами, консультациями или для создания отчетов.</p>
 <?php include 'includes/footer.php'; ?>

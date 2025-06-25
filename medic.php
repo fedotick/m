@@ -1,5 +1,4 @@
 <?php
-// File: medic.php
 include 'includes/db.php';
 include 'includes/header.php';
 
@@ -12,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!empty($nume) && !empty($prenume) && !empty($specializare) && !empty($tarif)) {
             $stmt = $pdo->prepare("INSERT INTO Medic (Nume, Prenume, Specializare, TarifConsultatie) VALUES (?, ?, ?, ?)");
             $stmt->execute([$nume, $prenume, $specializare, $tarif]);
-            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">Medic adăugat cu succes!<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>';
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">Врач успешно добавлен!<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>';
         } else {
-            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Toate câmpurile sunt obligatorii!<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>';
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Все поля обязательны для заполнения!<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>';
         }
     } elseif (isset($_POST['edit'])) {
         $id = $_POST['id'];
@@ -25,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!empty($nume) && !empty($prenume) && !empty($specializare) && !empty($tarif)) {
             $stmt = $pdo->prepare("UPDATE Medic SET Nume = ?, Prenume = ?, Specializare = ?, TarifConsultatie = ? WHERE IdMedic = ?");
             $stmt->execute([$nume, $prenume, $specializare, $tarif, $id]);
-            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">Medic actualizat cu succes!<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>';
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">Врач успешно обновлен!<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>';
         } else {
-            echo '<div class="alert alert-danger alert-dismiss fade show" role="alert">Toate câmpurile sunt obligatorii!</button>';
+            echo '<div class="alert alert-danger alert-dismiss fade show" role="alert">Все поля обязательны для заполнения!</button>';
         }
     }
 }
@@ -36,33 +35,33 @@ if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $stmt = $pdo->prepare("DELETE FROM Medic WHERE IdMedic = ?");
     $stmt->execute([$id]);
-    echo '<div class="alert alert-success fade show">Medic șters!</div>';
+    echo '<div class="alert alert-success fade show">Врач удален!</div>';
 }
 
 $doctors = $pdo->query("SELECT * FROM Medic")->fetchAll(PDO::FETCH_ASSOC);
 $specializations = $pdo->query("SELECT DISTINCT Specializare FROM Medic")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
-<h2>Gestionează Medicii</h2>
+<h2>Управление врачами</h2>
 <div class="mb-3">
     <select id="filterMedic" class="form-select">
-        <option value="">Toate specializările</option>
+        <option value="">Все специальности</option>
         <?php foreach ($specializations as $spec): ?>
             <option value="<?php echo $spec; ?>"><?php echo $spec; ?></option>
         <?php endforeach; ?>
     </select>
 </div>
-<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Adaugă Medic</button>
+<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Добавить врача</button>
 
 <table class="table table-striped">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Nume</th>
-            <th>Prenume</th>
-            <th>Specializare</th>
-            <th>Tarif</th>
-            <th>Acțiuni</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Специальность</th>
+            <th>Стоимость консультации</th>
+            <th>Действия</th>
         </tr>
     </thead>
     <tbody id="medicTable">
@@ -74,38 +73,38 @@ $specializations = $pdo->query("SELECT DISTINCT Specializare FROM Medic")->fetch
             <td><?php echo $doctor['Specializare']; ?></td>
             <td><?php echo $doctor['TarifConsultatie']; ?></td>
             <td>
-                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $doctor['IdMedic']; ?>">Editează</button>
-                <a href="?delete=<?php echo $doctor['IdMedic']; ?>" class="btn btn-sm btn-danger delete-btn">Șterge</a>
+                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $doctor['IdMedic']; ?>">Редактировать</button>
+                <a href="?delete=<?php echo $doctor['IdMedic']; ?>" class="btn btn-sm btn-danger delete-btn">Удалить</a>
             </td>
         </tr>
-        <!-- Edit Modal -->
+        <!-- Модальное окно редактирования -->
         <div class="modal fade" id="editModal<?php echo $doctor['IdMedic']; ?>" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Editează Medic</h5>
+                        <h5 class="modal-title">Редактировать врача</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <form method="post">
                             <input type="hidden" name="id" value="<?php echo $doctor['IdMedic']; ?>">
                             <div class="mb-3">
-                                <label class="form-label">Nume</label>
+                                <label class="form-label">Фамилия</label>
                                 <input type="text" name="nume" class="form-control" value="<?php echo $doctor['Nume']; ?>" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Prenume</label>
+                                <label class="form-label">Имя</label>
                                 <input type="text" name="prenume" class="form-control" value="<?php echo $doctor['Prenume']; ?>" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Specializare</label>
+                                <label class="form-label">Специальность</label>
                                 <input type="text" name="specializare" class="form-control" value="<?php echo $doctor['Specializare']; ?>" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Tarif Consultație</label>
+                                <label class="form-label">Стоимость консультации</label>
                                 <input type="number" name="tarif" class="form-control" value="<?php echo $doctor['TarifConsultatie']; ?>" required>
                             </div>
-                            <button type="submit" name="edit" class="btn btn-primary">Salvează</button>
+                            <button type="submit" name="edit" class="btn btn-primary">Сохранить</button>
                         </form>
                     </div>
                 </div>
@@ -115,33 +114,33 @@ $specializations = $pdo->query("SELECT DISTINCT Specializare FROM Medic")->fetch
     </tbody>
 </table>
 
-<!-- Add Modal -->
+<!-- Модальное окно добавления -->
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Adaugă Medic</h5>
+                <h5 class="modal-title">Добавить врача</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form method="post">
                     <div class="mb-3">
-                        <label class="form-label">Nume</label>
+                        <label class="form-label">Фамилия</label>
                         <input type="text" name="nume" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Prenume</label>
+                        <label class="form-label">Имя</label>
                         <input type="text" name="prenume" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Specializare</label>
+                        <label class="form-label">Специальность</label>
                         <input type="text" name="specializare" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Tarif Consultație</label>
+                        <label class="form-label">Стоимость консультации</label>
                         <input type="number" name="tarif" class="form-control" required>
                     </div>
-                    <button type="submit" name="add" class="btn btn-primary">Adaugă</button>
+                    <button type="submit" name="add" class="btn btn-primary">Добавить</button>
                 </form>
             </div>
         </div>

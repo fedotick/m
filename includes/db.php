@@ -1,5 +1,4 @@
 <?php
-// File: includes/db.php
 $host = 'localhost';
 $dbname = 'medical_db';
 $username = 'root';
