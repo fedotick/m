@@ -1,0 +1,12 @@
+body {
+    padding-top: 70px;
+}
+.table th, .table td {
+    vertical-align: middle;
+}
+.modal-lg {
+    max-width: 80%;
+}
+.alert-dismissible {
+    margin-top: 10px;
+}
